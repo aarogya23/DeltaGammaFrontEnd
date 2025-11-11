@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delta Gamma Academy</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    /* styles.css */
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    header .logo {
+        height: 95px;
+        width: auto;
+    }
+
+    header h1 {
+        margin: 0;
+        color: #333;
+    }
+
+    .jumbotron {
+        padding: 100px 0;
+        background-color: #f1f1f1;
+    }
+
+    .jumbotron .display-4 {
+        font-size: 2.5em;
+    }
+
+    footer {
+        background-color: #00274d;
+        color: #fff;
+        padding: 40px 0;
+    }
+
+    footer .footer-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: start;
+    }
+
+    footer .footer-content div {
+        flex: 1;
+        padding: 0 20px;
+        margin-bottom: 20px;
+    }
+
+    footer .footer-content h5 {
+        margin-bottom: 20px;
+        font-size: 1.1em;
+    }
+
+    footer .footer-content p,
+    footer .footer-content ul,
+    footer .footer-content form {
+        margin: 0 0 10px;
+    }
+
+    footer .footer-content ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    footer .footer-content ul li {
+        margin-bottom: 10px;
+    }
+
+    footer .footer-content ul li a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        color: #fff;
+        background-color: #007bffba;
+        border-color: #007bff12;
+    }
+
+    .text-primary {
+        color: #007bffba !important;
+    }
+
+    footer .footer-content form input[type="email"] {
+        width: calc(100% - 90px);
+        padding: 10px;
+        border: none;
+        border-radius: 5px 0 0 5px;
+        margin-right: -5px;
+    }
+
+    footer .footer-content form button {
+        padding: 10px 20px;
+        border: none;
+        background-color: #f7a36b;
+        border-radius: 0 5px 5px 0;
+        color: #fff;
+    }
+
+    footer .footer-content .social-icons {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    footer .footer-content .social-icons a {
+        color: #fff;
+        font-size: 1.2em;
+        margin-right: 15px;
+    }
+
+    footer .footer-bottom {
+        text-align: center;
+        margin-top: 20px;
+        padding-top: 10px;
+        border-top: 1px solid #334;
+    }
+
+    footer .footer-bottom p {
+        margin: 0;
+        font-size: 0.9em;
+    }
+
+    footer .footer-bottom a {
+        color: #f7a36b;
+        text-decoration: none;
+    }
+
+    footer .footer-bottom a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+        .jumbotron .display-4 {
+            font-size: 2em;
+        }
+
+        footer .footer-content {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        footer .footer-content div {
+            margin-bottom: 20px;
+            padding: 0;
+        }
+
+        footer .footer-content form input[type="email"] {
+            width: 100%;
+            margin-right: 0;
+            margin-bottom: 10px;
+        }
+
+        footer .footer-content form button {
+            width: 100%;
+        }
+
+        .social-icons {
+            justify-content: center;
+            margin-top: 10px;
+        }
+    }
+    .team-member img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .team-member {
+            margin-bottom: 20px;
+        }
+</style>
+<body>
+    <header class="bg-light py-3 border-bottom">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <img src="Artboard 8.png" alt="Delta Gamma Academy Logo" class="logo" style="width: 220px; height: auto;">
+                
+            </div>
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto" >
+                        <li class="nav-item"><a href="#about" class="nav-link" style="color: #2BABE2;">About Us</a></li>
+                        <li class="nav-item"><a href="#goals" class="nav-link" style="color: #2BABE2;">Goals</a></li>
+                        <li class="nav-item"><a href="tel:015918663" class="nav-link" style="color: #2BABE2;">Call Us: 9808761800</a></li>
+                        <li class="nav-item"><a href="#register" class="btn btn-primary ml-2">Register</a></li>
+                        <li class="nav-item"><a href="login.html" class="btn btn-primary ml-2">Sign In</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main>
+
+        
+        <div class="content container">
+            <h1 class="text-center my-5">About Us</h1>
+            <p>Welcome to 
+                 Delta Gamma Academy, we are dedicated to helping students prepare for the Institute of Engineering (IOE) entrance examinations. Our primary mission is to equip students with the essential knowledge and skills needed to excel in their engineering entrance exams.</p>
+                
+               <p> We have a team of experienced and qualified instructors who are committed to providing high-quality education and personalized guidance. Our focus is on creating a supportive and engaging learning environment that fosters academic excellence and prepares our students to succeed in their future engineering careers.</p>
+            <p>Delta Gamma Academy was founded with the vision of empowering students to achieve their dreams of pursuing engineering through the Institute of Engineering (IOE) entrance examinations. Our primary mission is to equip students with the essential knowledge and skills needed to excel in these competitive exams.</p>
+
+                <p>Since our inception, we've built a team of experienced and qualified instructors dedicated to providing high-quality education and personalized guidance. Our focus is on creating a supportive and engaging learning environment that fosters academic excellence and prepares our students to succeed in their future engineering careers.</p>
+            
+    
+            <h2 class="my-5">Our Team</h2>
+            <div class="row">
+                <div class="col-md-4 text-center team-member">
+                    <img src="Image31.png" alt="Team Member 1">
+                    <h5 class="mt-3">Yubin Sapkota</h5>
+                    <p>CEO & Founder</p>
+                </div>
+                
+                <div class="col-md-4 text-center team-member">
+                    <img src="image4.jpg" alt="Team Member 3">
+                    <h5 class="mt-3">Aarogya Thapa</h5>
+                    <p>Senior Developer</p>
+                </div>
+                <div class="col-md-4 text-center team-member">
+                    <img src="Image2(1)(1).png" alt="Team Member 2">
+                    <h5 class="mt-3">Rohit Karki</h5>
+                    <p>Physics Teacher </p>
+                </div>
+                <!-- Add more team members as needed -->
+            </div>
+            <div class="row">
+                <div class="col-md-4 text-center team-member">
+                    <img src="image  122.jpg" alt="Team Member 1">
+                    <h5 class="mt-3">Saurabh Shrestha</h5>
+                    <p>Digital Product Manager</p>
+                </div>
+                <div class="col-md-4 text-center team-member">
+                    <img src="sandesh.jpg" alt="Team Member 3">
+                    <h5 class="mt-3">Sandesh Thapa</h5>
+                    <p>Mathematics Teacher</p>
+                </div>
+                <div class="col-md-4 text-center team-member">
+                    <img src="hemansu.jpg" alt="Team Member 2">
+                    <h5 class="mt-3">Himanshu Khatiwada</h5>
+                    <p>Chemistry Teacher </p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="bg-dark">
+        <div class=" bg-dark container footer-content">
+            <div>
+                <h5>About Us</h5>
+                <p>We provide top-notch education and support to prepare students for successful careers in engineering, medical and related fields.</p>
+            </div>
+            <div>
+                <h5>Links</h5>
+                <ul>
+                    <li><a href="#about">About us</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#blogs">Blogs</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5>Courses</h5>
+                <ul>
+                    <li><a href="#course1">Engineering Entrance Prep (BE/BSc CSIT)</a></li>
+                    <li><a href="#course2">Medical Entrance Prep (CEE)</a></li>
+                    <li><a href="#course3">Grade 11: Engineering Entrance Prep (BE/BSc IT)</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5>Stay Updated</h5>
+                <form>
+                    <input type="email" placeholder="Enter your Email">
+                    <button type="submit">Subscribe</button>
+                </form>
+                <div class="social-icons">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-instagram"></i></a>
+                    <a href="#"><i class="fa fa-whatsapp"></i></a>
+                    <a href="#"><i class="fa fa-phone"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Delta Gamma Academy. All rights reserved. <a href="#privacy-policy">Privacy Policy</a> | <a href="#terms-of-use">Terms of Use</a></p>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

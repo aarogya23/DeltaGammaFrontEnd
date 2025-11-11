@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Delta Gama Academy Mathematics Page">
+    <title>Delta Gama Academy Mathematics Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="path/to/your/icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-size: .875rem;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        main {
+            position: relative;
+            overflow-y: auto;
+            transition: margin-left 0.3s, width 0.3s;
+            margin-left: 250px;
+            width: calc(100% - 250px);
+        }
+
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 250px;
+            background-color: #f8f9fa;
+            padding-top: 1rem;
+            z-index: 1000;
+            transform: translateX(0);
+            transition: transform 0.3s ease;
+        }
+
+        #sidebar .back-btn {
+            display: none;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            padding: 0.5rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        #sidebar.active .back-btn {
+            display: block;
+        }
+
+        #sidebarToggle {
+            font-size: 0.75rem;
+            padding: 0.5rem 1rem;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .sidebar-header img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .nav-link.active {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .pt-3, .py-3 {
+            padding-top: 5rem !important;
+        }
+
+        /* Responsive Design Adjustments */
+        @media (max-width: 992px) {
+            #sidebar {
+                width: 100%;
+                transform: translateX(-100%);
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 1000;
+                height: 100%;
+            }
+
+            #sidebar.active {
+                transform: translateX(0);
+            }
+
+            main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            #logo {
+                display: block;
+                margin: 1rem auto;
+                max-width: 150px;
+            }
+
+            .nav-link i {
+                margin-right: 8px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .card-title {
+                font-size: 1rem;
+            }
+
+            .card-text {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .card-body {
+                padding: 1rem;
+            }
+
+            .card-title {
+                font-size: 0.875rem;
+            }
+
+            .card-text {
+                font-size: 0.875rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar Toggle Button -->
+            <button class="btn btn-primary d-md-none" id="sidebarToggle" aria-label="Toggle Sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Logo for Mobile View -->
+            <div id="logo" class="d-md-none">
+                <img src="Artboard 7.png" alt="Delta Gama Academy Logo" class="img-fluid">
+            </div>
+
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+                <button class="back-btn" id="backButton" aria-label="Close Sidebar">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="position-sticky">
+                    <div class="sidebar-header">
+                        <img src="Artboard 7.png" alt="Delta Gama Academy Logo" class="img-fluid"> <!-- Replace with your logo path -->
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="Dashboard.html">
+                                <i class="fas fa-home"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-book"></i> My Course
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="test series.html">
+                                <i class="fas fa-file-alt"></i> Test Series
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-sticky-note"></i> My Notes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="new.html">
+                                <i class="fas fa-inbox"></i> Inbox
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-layer-group"></i> Courses
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Mathematics</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-user"></i>
+                            </button>
+                        </div>
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mathematics Topics Section -->
+                <div class="row">
+                    <!-- Trigonometry Card -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Trigonometry</h5>
+                                <p class="card-text">Explore topics in Trigonometry including sine, cosine, tangent functions, and their applications.</p>
+                                <a href="#" class="btn btn-primary">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calculus Card -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Calculus</h5>
+                                <p class="card-text">Dive into Calculus with a focus on differentiation, integration, and their real-world applications.</p>
+                                <a href="Calculus.html" class="btn btn-primary">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Matrix Card -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Matrix</h5>
+                                <p class="card-text">Study Matrix operations, determinants, inverses, and their applications in solving linear systems.</p>
+                                <a href="#" class="btn btn-primary">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vector Card -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Vector</h5>
+                                <p class="card-text">Understand Vector concepts including addition, scalar multiplication, dot product, and cross product.</p>
+                                <a href="#" class="btn btn-primary">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Custom Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var sidebarToggle = document.getElementById('sidebarToggle');
+            var sidebar = document.getElementById('sidebar');
+            var backButton = document.getElementById('backButton');
+
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+            });
+
+            backButton.addEventListener('click', function() {
+                sidebar.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

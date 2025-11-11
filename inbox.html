@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Delta Gama Academy Inbox - Communication Hub">
+    <title>Delta Gama Academy - Inbox</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #2BABE2 0%, #4facfe 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --primary-color: #667eea;
+            --secondary-color: #f8fafc;
+            --accent-color: #4facfe;
+            --text-primary: #2d3748;
+            --text-secondary: #718096;
+            --border-color: #e2e8f0;
+            --card-bg: #ffffff;
+            --sidebar-bg: #ffffff;
+            --hover-bg: #f7fafc;
+            --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-heavy: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #667eea;
+            --secondary-color: #1a202c;
+            --accent-color: #4facfe;
+            --text-primary: #f7fafc;
+            --text-secondary: #a0aec0;
+            --border-color: #2d3748;
+            --card-bg: #2d3748;
+            --sidebar-bg: #1a202c;
+            --hover-bg: #4a5568;
+            --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            --shadow-heavy: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 0.875rem;
+            background: var(--secondary-color);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Enhanced Sidebar */
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 280px;
+            background: var(--sidebar-bg);
+            padding: 0;
+            z-index: 1000;
+            transform: translateX(0);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-right: 1px solid var(--border-color);
+            box-shadow: var(--shadow-medium);
+            backdrop-filter: blur(20px);
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            text-align: center;
+            background: var(--primary-gradient);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-header::before { 
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.1;
+        }
+
+        .sidebar-header img {
+            max-width: 180px;
+            height: auto;
+            filter: brightness(0) invert(1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            padding: 1rem 1.5rem;
+            margin: 0.25rem 1rem;
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .nav-link:hover::before,
+        .nav-link.active::before {
+            left: 0;
+        }
+
+        .nav-link:hover {
+            color: white;
+            text-decoration: none;
+            transform: translateX(8px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .nav-link.active {
+            color: white;
+            font-weight: 600;
+            transform: translateX(8px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .nav-link i {
+            margin-right: 1rem;
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        /* Enhanced Main Content */
+        main {
+            margin-left: 280px;
+            width: calc(100% - 280px);
+            padding: 2rem;
+            background: var(--secondary-color);
+            min-height: 100vh;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Enhanced Dashboard Header */
+        .dashboard-header {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            opacity: 0.1;
+            transform: translate(50%, -50%);
+        }
+
+        .dashboard-header h1 {
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin: 0;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dashboard-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Enhanced Cards */
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: var(--shadow-light);
+            background: var(--card-bg);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        /* Enhanced Theme Toggle */
+        .theme-toggle {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--secondary-gradient);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .theme-toggle:hover::before {
+            opacity: 1;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(180deg);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .theme-toggle i {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Enhanced Buttons */
+        .btn-toolbar .btn {
+            background: var(--hover-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-left: 0.5rem;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-toolbar .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .btn-toolbar .btn:hover::before {
+            left: 0;
+        }
+
+        .btn-toolbar .btn:hover {
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-light);
+        }
+
+        /* Inbox Specific Styles */
+        .inbox-sidebar {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: var(--shadow-light);
+            height: 600px;
+            overflow-y: auto;
+        }
+
+        .inbox-main {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: var(--shadow-light);
+            height: 750px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .inbox-tab {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .inbox-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
+            opacity: 0.05;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .inbox-tab:hover::before,
+        .inbox-tab.active::before {
+            left: 0;
+        }
+
+        .inbox-tab.active {
+            border-left: 4px solid;
+            border-left-color: var(--accent-color);
+            background: var(--hover-bg);
+        }
+
+        .inbox-tab:hover {
+            background: var(--hover-bg);
+        }
+
+        .inbox-tab .tab-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .inbox-tab .tab-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .message-item {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .message-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
+            opacity: 0.03;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .message-item:hover::before {
+            left: 0;
+        }
+
+        .message-item:hover {
+            background: var(--hover-bg);
+        }
+
+        .message-item.unread {
+            border-left: 4px solid var(--accent-color);
+            background: rgba(79, 172, 254, 0.05);
+        }
+
+        .message-sender {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .message-subject {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .message-preview {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Form Styles */
+        .compose-form {
+            padding: 2.5rem;
+            flex: 1;
+            overflow-y: auto;
+            max-height: calc(750px - 120px);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-control {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+            outline: none;
+        }
+
+        .form-select {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .form-select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+            outline: none;
+        }
+
+        .file-upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-upload-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
+            opacity: 0.03;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .file-upload-area:hover::before {
+            left: 0;
+        }
+
+        .file-upload-area:hover {
+            border-color: var(--accent-color);
+            background: var(--hover-bg);
+        }
+
+        .file-upload-icon {
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .file-upload-text {
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-upload-subtext {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .uploaded-file {
+            background: var(--hover-bg);
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .uploaded-file-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .uploaded-file-icon {
+            color: var(--accent-color);
+            margin-right: 0.75rem;
+        }
+
+        .uploaded-file-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .uploaded-file-size {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-left: 0.5rem;
+        }
+
+        .remove-file-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 4px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .remove-file-btn:hover {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            padding: 2rem 2.5rem;
+            border-top: 1px solid var(--border-color);
+            background: var(--hover-bg);
+            display: flex;
+            gap: 1rem;
+            flex-shrink: 0;
+        }
+
+        .btn-primary-custom {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            border-radius: 12px;
+            padding: 0.875rem 2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary-custom::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--secondary-gradient);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-primary-custom:hover::before {
+            opacity: 1;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-primary-custom i {
+            position: relative;
+            z-index: 1;
+            margin-right: 0.5rem;
+        }
+
+        .btn-primary-custom span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-secondary-custom {
+            background: var(--hover-bg);
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 12px;
+            padding: 0.875rem 2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-secondary-custom:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-light);
+        }
+
+        /* Character Counter */
+        .character-counter {
+            text-align: right;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .character-counter.warning {
+            color: #fbbf24;
+        }
+
+        .character-counter.danger {
+            color: #ef4444;
+        }
+
+        /* User Profile Enhancement */
+        .user-profile {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow-light);
+            margin: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-profile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+
+        .profile-info {
+            text-align: center;
+        }
+
+        .profile-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-email {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .logout-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--secondary-gradient);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .logout-button:hover {
+            transform: scale(1.1);
+            text-decoration: none;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        /* Success Message */
+        .success-message {
+            background: var(--success-gradient);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            display: none;
+            align-items: center;
+            animation: slideInDown 0.5s ease-out;
+        }
+
+        .success-message i {
+            margin-right: 0.75rem;
+            font-size: 1.2rem;
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            #sidebar {
+                width: 100%;
+                transform: translateX(-100%);
+            }
+
+            #sidebar.active {
+                transform: translateX(0);
+            }
+
+            main {
+                margin-left: 0;
+                width: 100%;
+                padding: 1rem;
+            }
+
+            .dashboard-header h1 {
+                font-size: 2rem;
+            }
+
+            .inbox-container {
+                flex-direction: column;
+            }
+
+            .inbox-sidebar {
+                height: 300px;
+                margin-bottom: 1rem;
+            }
+
+            .inbox-main {
+                height: 650px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header {
+                padding: 1.5rem;
+            }
+
+            .dashboard-header h1 {
+                font-size: 1.75rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn-primary-custom,
+            .btn-secondary-custom {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        /* Sidebar Toggle Button */
+        #sidebarToggle {
+            font-size: 1rem;
+            padding: 1rem;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            margin: 1rem;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #sidebarToggle:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .back-btn {
+            display: none;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--secondary-gradient);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            z-index: 1001;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .back-btn:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-medium);
+        }
+
+        #sidebar.active .back-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body data-theme="light">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar Toggle Button -->
+            <button class="btn btn-primary d-md-none" id="sidebarToggle" aria-label="Toggle Sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar">
+                <button class="back-btn" id="backButton" aria-label="Close Sidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+                
+                <div class="position-sticky">
+                    <div class="sidebar-header">
+                        <img src="image/Artboard 7.png" alt="Delta Gama Academy Logo" class="img-fluid">
+                    </div>
+                    
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link animate-fade-in-up" href="#" style="animation-delay: 0.1s">
+                                <i class="fas fa-home"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link animate-fade-in-up" href="#" style="animation-delay: 0.2s">
+                                <i class="fas fa-book"></i> My Courses
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link animate-fade-in-up" href="Mcqpage" style="animation-delay: 0.3s">
+                                <i class="fas fa-file-alt"></i> Test Series
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link animate-fade-in-up" href="#" style="animation-delay: 0.4s">
+                                <i class="fas fa-sticky-note"></i> My Notes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active animate-fade-in-up" href="#" style="animation-delay: 0.5s">
+                                <i class="fas fa-inbox"></i> Inbox
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link animate-fade-in-up" href="#" style="animation-delay: 0.6s">
+                                <i class="fas fa-layer-group"></i> All Courses
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link animate-fade-in-up" href="mcqs" style="animation-delay: 0.7s">
+                                <i class="fas fa-question-circle"></i> MCQ Test
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link animate-fade-in-up" href="image" style="animation-delay: 0.8s">
+                                <i class="fas fa-image"></i> Gallery
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <div class="user-profile animate-fade-in-up" style="animation-delay: 0.9s">
+                        <div class="profile-info">
+                            <div class="profile-name">Admin User</div>
+                            <div class="profile-email">admin@deltagama.edu</div>
+                        </div>
+                        <a href="#" class="logout-button" title="Logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                <div class="dashboard-header animate-fade-in-up" style="animation-delay: 0.2s">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
+                        <div>
+                            <h1 class="h2">Inbox</h1>
+                            <p class="dashboard-subtitle">Communicate with instructors and support team</p>
+                        </div>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <div class="btn-group me-2">
+                                <button type="button" class="btn btn-sm">
+                                    <i class="fas fa-user"></i>
+                                </button>
+                            </div>
+                            <div class="btn-group me-2">
+                                <button type="button" class="btn btn-sm">
+                                    <i class="fas fa-bell"></i>
+                                </button>
+                            </div>
+                            <div class="btn-group me-2">
+                                <button type="button" class="btn btn-sm">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                            </div>
+                            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">
+                                <i class="fas fa-moon" id="theme-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Success Message -->
+                <div class="success-message" id="successMessage">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Message sent successfully!</span>
+                </div>
+
+                <!-- Inbox Container -->
+                <div class="row inbox-container">
+                    <!-- Inbox Sidebar -->
+                    <div class="col-md-4 mb-4">
+                        <div class="inbox-sidebar animate-fade-in-up" style="animation-delay: 0.3s">
+                            <div class="inbox-tab active" data-tab="compose">
+                                <div class="tab-title">
+                                    <i class="fas fa-plus-circle me-2"></i>Compose Message
+                                </div>
+                                <div class="tab-subtitle">Send a new message</div>
+                            </div>
+                            <div class="inbox-tab" data-tab="received">
+                                <div class="tab-title">
+                                    <i class="fas fa-inbox me-2"></i>Received <span class="badge badge-primary ms-2">3</span>
+                                </div>
+                                <div class="tab-subtitle">Messages from instructors</div>
+                            </div>
+                            <div class="inbox-tab" data-tab="sent">
+                                <div class="tab-title">
+                                    <i class="fas fa-paper-plane me-2"></i>Sent
+                                </div>
+                                <div class="tab-subtitle">Your sent messages</div>
+                            </div>
+                            <div class="inbox-tab" data-tab="archived">
+                                <div class="tab-title">
+                                    <i class="fas fa-archive me-2"></i>Archived
+                                </div>
+                                <div class="tab-subtitle">Old conversations</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Inbox Area -->
+                    <div class="col-md-8">
+                        <div class="inbox-main animate-fade-in-up" style="animation-delay: 0.4s">
+                            
+                            <!-- Compose Message Tab -->
+                            <div class="tab-content active" id="compose-tab">
+                                <div class="compose-form">
+                                    <h4 class="mb-4">
+                                        <i class="fas fa-edit me-2" style="color: var(--accent-color);"></i>
+                                        Compose New Message
+                                    </h4>
+                                    
+                                    <form id="messageForm">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">
+                                                        <i class="fas fa-user me-2"></i>Full Name *
+                                                    </label>
+                                                    <input type="text" class="form-control" id="senderName" 
+                                                           placeholder="Enter your full name" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">
+                                                        <i class="fas fa-envelope me-2"></i>Email Address *
+                                                    </label>
+                                                    <input type="email" class="form-control" id="senderEmail" 
+                                                           placeholder="Enter your email address" required>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label">
+                                                <i class="fas fa-tag me-2"></i>Problem Area *
+                                            </label>
+                                            <select class="form-select" id="problemArea" required>
+                                                <option value="">Select problem area</option>
+                                                <option value="technical">Technical Issues</option>
+                                                <option value="course-content">Course Content</option>
+                                                <option value="assessment">Assessment & Testing</option>
+                                                <option value="account">Account Management</option>
+                                                <option value="payment">Payment & Billing</option>
+                                                <option value="general">General Inquiry</option>
+                                                <option value="feedback">Feedback & Suggestions</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label">
+                                                <i class="fas fa-align-left me-2"></i>Detailed Explanation *
+                                            </label>
+                                            <textarea class="form-control" id="messageDetail" rows="6" 
+                                                      placeholder="Please provide a detailed explanation of your issue or inquiry..." 
+                                                      maxlength="1000" required></textarea>
+                                            <div class="character-counter" id="charCounter">0 / 1000 characters</div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label">
+                                                <i class="fas fa-paperclip me-2"></i>Attachment (Optional)
+                                            </label>
+                                            <div class="file-upload-area" onclick="document.getElementById('fileInput').click()">
+                                                <input type="file" id="fileInput" style="display: none" 
+                                                       accept="image/*,.pdf,.doc,.docx,.txt" multiple>
+                                                <div class="file-upload-icon">
+                                                    <i class="fas fa-cloud-upload-alt"></i>
+                                                </div>
+                                                <div class="file-upload-text">Click to upload files</div>
+                                                <div class="file-upload-subtext">
+                                                    Support: Images, PDF, DOC, TXT (Max 10MB each)
+                                                </div>
+                                            </div>
+                                            <div id="uploadedFiles"></div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="action-buttons">
+                                    <button type="submit" class="btn-primary-custom" id="sendMessage">
+                                        <i class="fas fa-paper-plane"></i>
+                                        <span>Send Message</span>
+                                    </button>
+                                    <button type="button" class="btn-secondary-custom" id="saveDraft">
+                                        <i class="fas fa-save"></i>
+                                        <span>Save Draft</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Received Messages Tab -->
+                            <div class="tab-content" id="received-tab" style="display: none;">
+                                <div style="padding: 2rem; flex: 1; overflow-y: auto;">
+                                    <h4 class="mb-4">
+                                        <i class="fas fa-inbox me-2" style="color: var(--accent-color);"></i>
+                                        Received Messages
+                                    </h4>
+                                    
+                                    <div class="message-item unread">
+                                        <div class="message-sender">Dr. Sarah Johnson - Physics Instructor</div>
+                                        <div class="message-subject">Assignment Feedback Available</div>
+                                        <div class="message-preview">
+                                            Your recent physics assignment on quantum mechanics has been graded. Overall excellent work with detailed explanations...
+                                        </div>
+                                        <div class="message-time">2 hours ago</div>
+                                    </div>
+
+                                    <div class="message-item">
+                                        <div class="message-sender">Support Team - Delta Gama Academy</div>
+                                        <div class="message-subject">Account Verification Complete</div>
+                                        <div class="message-preview">
+                                            Congratulations! Your account has been successfully verified. You now have access to all premium features...
+                                        </div>
+                                        <div class="message-time">1 day ago</div>
+                                    </div>
+
+                                    <div class="message-item unread">
+                                        <div class="message-sender">Prof. Michael Chen - Mathematics Department</div>
+                                        <div class="message-subject">Upcoming Test Notification</div>
+                                        <div class="message-preview">
+                                            This is to inform you about the upcoming mathematics test scheduled for next week. Please prepare chapters 1-5...
+                                        </div>
+                                        <div class="message-time">2 days ago</div>
+                                    </div>
+
+                                    <div class="message-item">
+                                        <div class="message-sender">Admin - Course Updates</div>
+                                        <div class="message-subject">New Study Materials Added</div>
+                                        <div class="message-preview">
+                                            We've added new study materials and practice questions for Chemistry. Check out the latest updates in your course...
+                                        </div>
+                                        <div class="message-time">3 days ago</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sent Messages Tab -->
+                            <div class="tab-content" id="sent-tab" style="display: none;">
+                                <div style="padding: 2rem; flex: 1; overflow-y: auto;">
+                                    <h4 class="mb-4">
+                                        <i class="fas fa-paper-plane me-2" style="color: var(--accent-color);"></i>
+                                        Sent Messages
+                                    </h4>
+                                    
+                                    <div class="message-item">
+                                        <div class="message-sender">To: Physics Department</div>
+                                        <div class="message-subject">Question about Lab Equipment</div>
+                                        <div class="message-preview">
+                                            I have a question about the equipment needed for the upcoming physics lab session...
+                                        </div>
+                                        <div class="message-time">5 days ago</div>
+                                    </div>
+
+                                    <div class="message-item">
+                                        <div class="message-sender">To: Support Team</div>
+                                        <div class="message-subject">Login Issues</div>
+                                        <div class="message-preview">
+                                            I'm experiencing some difficulties logging into my account. The password reset doesn't seem to be working...
+                                        </div>
+                                        <div class="message-time">1 week ago</div>
+                                    </div>
+
+                                    <div class="message-item">
+                                        <div class="message-sender">To: Mathematics Department</div>
+                                        <div class="message-subject">Assignment Extension Request</div>
+                                        <div class="message-preview">
+                                            I would like to request a short extension for the calculus assignment due to unforeseen circumstances...
+                                        </div>
+                                        <div class="message-time">2 weeks ago</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Archived Messages Tab -->
+                            <div class="tab-content" id="archived-tab" style="display: none;">
+                                <div style="padding: 2rem; flex: 1; overflow-y: auto;">
+                                    <h4 class="mb-4">
+                                        <i class="fas fa-archive me-2" style="color: var(--accent-color);"></i>
+                                        Archived Messages
+                                    </h4>
+                                    
+                                    <div class="message-item">
+                                        <div class="message-sender">Welcome Team - Delta Gama Academy</div>
+                                        <div class="message-subject">Welcome to Delta Gama Academy</div>
+                                        <div class="message-preview">
+                                            Welcome to our learning platform! We're excited to have you join our community of learners...
+                                        </div>
+                                        <div class="message-time">1 month ago</div>
+                                    </div>
+
+                                    <div class="message-item">
+                                        <div class="message-sender">Course Coordinator</div>
+                                        <div class="message-subject">Course Schedule Update</div>
+                                        <div class="message-preview">
+                                            There have been some updates to the course schedule. Please check your calendar for the latest information...
+                                        </div>
+                                        <div class="message-time">1 month ago</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar functionality
+            var sidebarToggle = document.getElementById('sidebarToggle');
+            var sidebar = document.getElementById('sidebar');
+            var backButton = document.getElementById('backButton');
+
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+            });
+
+            backButton.addEventListener('click', function() {
+                sidebar.classList.remove('active');
+            });
+
+            // Theme toggle functionality
+            function toggleTheme() {
+                const body = document.body;
+                const themeIcon = document.getElementById('theme-icon');
+                
+                if (body.getAttribute('data-theme') === 'dark') {
+                    body.removeAttribute('data-theme');
+                    themeIcon.className = 'fas fa-moon';
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    body.setAttribute('data-theme', 'dark');
+                    themeIcon.className = 'fas fa-sun';
+                    localStorage.setItem('theme', 'dark');
+                }
+            }
+
+            // Make toggleTheme globally available
+            window.toggleTheme = toggleTheme;
+
+            // Load saved theme
+            const savedTheme = localStorage.getItem('theme');
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                themeIcon.className = 'fas fa-sun';
+            }
+
+            // Tab switching functionality
+            const inboxTabs = document.querySelectorAll('.inbox-tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            inboxTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const targetTab = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all tabs
+                    inboxTabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => {
+                        content.style.display = 'none';
+                        content.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    const targetContent = document.getElementById(targetTab + '-tab');
+                    if (targetContent) {
+                        targetContent.style.display = 'flex';
+                        targetContent.classList.add('active');
+                    }
+                });
+            });
+
+            // Character counter
+            const messageDetail = document.getElementById('messageDetail');
+            const charCounter = document.getElementById('charCounter');
+
+            messageDetail.addEventListener('input', function() {
+                const currentLength = this.value.length;
+                const maxLength = parseInt(this.getAttribute('maxlength'));
+                
+                charCounter.textContent = currentLength + ' / ' + maxLength + ' characters';
+                
+                // Change color based on usage
+                if (currentLength > maxLength * 0.9) {
+                    charCounter.className = 'character-counter danger';
+                } else if (currentLength > maxLength * 0.8) {
+                    charCounter.className = 'character-counter warning';
+                } else {
+                    charCounter.className = 'character-counter';
+                }
+            });
+
+            // File upload functionality
+            const fileInput = document.getElementById('fileInput');
+            const uploadedFiles = document.getElementById('uploadedFiles');
+            let selectedFiles = [];
+
+            fileInput.addEventListener('change', function() {
+                const files = Array.from(this.files);
+                
+                files.forEach(file => {
+                    if (file.size > 10 * 1024 * 1024) { // 10MB limit
+                        alert(`File "${file.name}" is too large. Maximum size is 10MB.`);
+                        return;
+                    }
+                    
+                    if (!selectedFiles.some(f => f.name === file.name && f.size === file.size)) {
+                        selectedFiles.push(file);
+                        displayUploadedFile(file);
+                    }
+                });
+                
+                // Clear the input to allow re-uploading the same file
+                this.value = '';
+            });
+
+            function displayUploadedFile(file) {
+                const fileDiv = document.createElement('div');
+                fileDiv.className = 'uploaded-file';
+                
+                const fileIcon = getFileIcon(file.type);
+                const fileSize = formatFileSize(file.size);
+                
+                fileDiv.innerHTML = `
+                    <div class="uploaded-file-info">
+                        <i class="${fileIcon} uploaded-file-icon"></i>
+                        <div>
+                            <div class="uploaded-file-name">${file.name}</div>
+                            <div class="uploaded-file-size">${fileSize}</div>
+                        </div>
+                    </div>
+                    <button type="button" class="remove-file-btn" onclick="removeFile(this, '${file.name}')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                
+                uploadedFiles.appendChild(fileDiv);
+            }
+
+            function getFileIcon(fileType) {
+                if (fileType.startsWith('image/')) return 'fas fa-image';
+                if (fileType === 'application/pdf') return 'fas fa-file-pdf';
+                if (fileType.includes('document') || fileType.includes('word')) return 'fas fa-file-word';
+                if (fileType === 'text/plain') return 'fas fa-file-alt';
+                return 'fas fa-file';
+            }
+
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+
+            // Make removeFile globally available
+            window.removeFile = function(button, fileName) {
+                selectedFiles = selectedFiles.filter(file => file.name !== fileName);
+                button.closest('.uploaded-file').remove();
+            };
+
+            // Form submission
+            const messageForm = document.getElementById('messageForm');
+            const sendButton = document.getElementById('sendMessage');
+            const successMessage = document.getElementById('successMessage');
+
+            sendButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Basic form validation
+                const name = document.getElementById('senderName').value.trim();
+                const email = document.getElementById('senderEmail').value.trim();
+                const problemArea = document.getElementById('problemArea').value;
+                const detail = document.getElementById('messageDetail').value.trim();
+                
+                if (!name || !email || !problemArea || !detail) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+                
+                // Email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alert('Please enter a valid email address.');
+                    return;
+                }
+                
+                // Simulate sending message
+                sendButton.disabled = true;
+                sendButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Sending...</span>';
+                
+                setTimeout(() => {
+                    // Reset form
+                    messageForm.reset();
+                    selectedFiles = [];
+                    uploadedFiles.innerHTML = '';
+                    charCounter.textContent = '0 / 1000 characters';
+                    charCounter.className = 'character-counter';
+                    
+                    // Show success message
+                    successMessage.style.display = 'flex';
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 5000);
+                    
+                    // Reset button
+                    sendButton.disabled = false;
+                    sendButton.innerHTML = '<i class="fas fa-paper-plane"></i><span>Send Message</span>';
+                    
+                }, 2000);
+            });
+
+            // Save draft functionality
+            const saveDraftButton = document.getElementById('saveDraft');
+            
+            saveDraftButton.addEventListener('click', function() {
+                const formData = {
+                    name: document.getElementById('senderName').value,
+                    email: document.getElementById('senderEmail').value,
+                    problemArea: document.getElementById('problemArea').value,
+                    detail: document.getElementById('messageDetail').value,
+                    files: selectedFiles.map(f => f.name)
+                };
+                
+                localStorage.setItem('messageDraft', JSON.stringify(formData));
+                
+                // Visual feedback
+                this.innerHTML = '<i class="fas fa-check"></i><span>Draft Saved</span>';
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-save"></i><span>Save Draft</span>';
+                }, 2000);
+            });
+
+            // Load draft on page load
+            const savedDraft = localStorage.getItem('messageDraft');
+            if (savedDraft) {
+                const draft = JSON.parse(savedDraft);
+                document.getElementById('senderName').value = draft.name || '';
+                document.getElementById('senderEmail').value = draft.email || '';
+                document.getElementById('problemArea').value = draft.problemArea || '';
+                document.getElementById('messageDetail').value = draft.detail || '';
+                
+                // Update character counter
+                const currentLength = draft.detail ? draft.detail.length : 0;
+                charCounter.textContent = currentLength + ' / 1000 characters';
+            }
+
+            // Message item click handlers
+            const messageItems = document.querySelectorAll('.message-item');
+            messageItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove unread status
+                    this.classList.remove('unread');
+                    
+                    // Add selection highlight
+                    messageItems.forEach(msg => msg.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+        });
+    </script>
+
+    <style>
+        .message-item.selected {
+            background: rgba(79, 172, 254, 0.1);
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .badge {
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50px;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+    </style>
+</body>
+</html>

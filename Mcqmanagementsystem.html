@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCQ Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            
+            color: black;
+            min-height: 100vh;
+            display: flex;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        .sidebar {
+            width: 250px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 20px 0;
+            transition: all 0.3s ease;
+            color: black;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .dark-mode .sidebar {
+            background: rgba(0, 0, 0, 0.3);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar.collapsed {
+            width: 60px;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            padding: 0 20px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .logo-container {
+            margin-bottom: 15px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 10px;
+            background: linear-gradient(135deg, #667eea 0%, #2BABE2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .logo {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+        }
+
+        .logo:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .sidebar-header h2 {
+            color: black;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .sidebar-header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85em;
+        }
+
+        .collapsed .sidebar-header h2,
+        .collapsed .sidebar-header p {
+            display: none;
+        }
+
+        .collapsed .logo-container {
+            margin-bottom: 20px;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin: 5px 0;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            color: black;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 0 25px 25px 0;
+            margin-right: 20px;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: black;
+            transform: translateX(5px);
+        }
+
+        .nav-icon {
+            margin-right: 15px;
+            font-size: 1.2em;
+            min-width: 20px;
+        }
+
+        .collapsed .nav-text {
+            display: none;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .collapsed ~ .main-content {
+            margin-left: 60px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dark-mode .header {
+            background: rgba(20, 20, 30, 0.95);
+            color: white;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-toggle {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dark-mode .theme-toggle {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .dark-mode .theme-toggle:hover {
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #667eea;
+            padding: 10px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: rotate(90deg);
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .dark-mode .content-section {
+            background: rgba(20, 20, 30, 0.95);
+            color: white;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .dark-mode label {
+            color: #e0e0e0;
+        }
+
+        select, input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .dark-mode select, 
+        .dark-mode input, 
+        .dark-mode textarea {
+            background: rgba(40, 40, 50, 0.8);
+            border-color: #4a4a5a;
+            color: white;
+        }
+
+        .dark-mode select:focus, 
+        .dark-mode input:focus, 
+        .dark-mode textarea:focus {
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        select:focus, input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .options-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .dark-mode .options-container {
+            background: rgba(40, 40, 50, 0.5);
+        }
+
+        .option-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 15px;
+        }
+
+        .option-group input[type="radio"] {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .option-group input[type="text"] {
+            flex: 1;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #2BABE2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .mcq-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .mcq-item {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .dark-mode .mcq-item {
+            background: rgba(40, 40, 50, 0.5);
+            border-left-color: #4facfe;
+        }
+
+        .mcq-question {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .dark-mode .mcq-question {
+            color: #e0e0e0;
+        }
+
+        .mcq-options {
+            margin-left: 15px;
+        }
+
+        .mcq-option {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .dark-mode .mcq-option {
+            color: #b0b0b0;
+        }
+
+        .mcq-option.correct {
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .mcq-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .subject-tag {
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #667eea;
+        }
+
+        .dark-mode .stat-card {
+            background: rgba(40, 40, 50, 0.8);
+            border-top-color: #4facfe;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .dark-mode .stat-number {
+            color: #4facfe;
+        }
+
+        .stat-label {
+            color: #666;
+            font-weight: 600;
+        }
+
+        .dark-mode .stat-label {
+            color: #b0b0b0;
+        }
+
+        .subject-filter {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <img src="Artboard 7.png" style="width: 120px; height: auto;">
+            </div>
+           
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="#" class="nav-link active" data-section="dashboard">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="add-mcq">
+                    <span class="nav-icon">➕</span>
+                    <span class="nav-text">Add MCQ</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="view-mcqs">
+                    <span class="nav-icon">📝</span>
+                    <span class="nav-text">View MCQs</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="subjects">
+                    <span class="nav-icon">📚</span>
+                    <span class="nav-text">Manage Subjects</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>Delta Gamma Academy - MCQ Portal</h1>
+            <div class="header-controls">
+                <button class="theme-toggle" id="themeToggle">
+                    <span id="themeIcon">🌙</span>
+                    <span id="themeText">Dark Mode</span>
+                </button>
+                <button class="toggle-btn" id="toggleSidebar">☰</button>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div class="content-section active" id="dashboard">
+            <h2>Dashboard Overview</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalMcqs">0</div>
+                    <div class="stat-label">Total MCQs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalSubjects">0</div>
+                    <div class="stat-label">Subjects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="todayMcqs">0</div>
+                    <div class="stat-label">Added Today</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add MCQ Section -->
+        <div class="content-section" id="add-mcq">
+            <h2>Add New MCQ</h2>
+            <form id="mcqForm">
+                <div class="form-group">
+                    <label for="subject">Subject:</label>
+                    <select id="subject" required>
+                        <option value="">Select Subject</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="question">Question:</label>
+                    <textarea id="question" rows="3" placeholder="Enter your question here..." required></textarea>
+                </div>
+
+                <div class="options-container">
+                    <h3>Options:</h3>
+                    <div class="option-group">
+                        <input type="radio" name="correctOption" value="0" required>
+                        <label>A)</label>
+                        <input type="text" id="option0" placeholder="Option A" required>
+                    </div>
+                    <div class="option-group">
+                        <input type="radio" name="correctOption" value="1" required>
+                        <label>B)</label>
+                        <input type="text" id="option1" placeholder="Option B" required>
+                    </div>
+                    <div class="option-group">
+                        <input type="radio" name="correctOption" value="2" required>
+                        <label>C)</label>
+                        <input type="text" id="option2" placeholder="Option C" required>
+                    </div>
+                    <div class="option-group">
+                        <input type="radio" name="correctOption" value="3" required>
+                        <label>D)</label>
+                        <input type="text" id="option3" placeholder="Option D" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn">Add MCQ</button>
+                <button type="reset" class="btn btn-secondary">Clear Form</button>
+            </form>
+        </div>
+
+        <!-- View MCQs Section -->
+        <div class="content-section" id="view-mcqs">
+            <h2>All MCQs</h2>
+            <div class="subject-filter">
+                <label for="filterSubject">Filter by Subject:</label>
+                <select id="filterSubject">
+                    <option value="">All Subjects</option>
+                </select>
+            </div>
+            <div class="mcq-list" id="mcqList">
+                <!-- MCQs will be displayed here -->
+            </div>
+        </div>
+
+        <!-- Subjects Section -->
+        <div class="content-section" id="subjects">
+            <h2>Manage Subjects</h2>
+            <div class="form-group">
+                <label for="newSubject">Add New Subject:</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="newSubject" placeholder="Enter subject name" style="flex: 1;">
+                    <button class="btn" onclick="addSubject()">Add Subject</button>
+                </div>
+            </div>
+            <div id="subjectsList">
+                <!-- Subjects will be listed here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data storage
+        let mcqs = JSON.parse(localStorage.getItem('mcqs') || '[]');
+        let subjects = JSON.parse(localStorage.getItem('subjects') || '["Mathematics", "Science", "History", "English"]');
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSubjects();
+            updateDashboard();
+            displayMCQs();
+            displaySubjects();
+            loadThemePreference(); // Load saved theme
+            
+            // Navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.getAttribute('data-section');
+                    showSection(sectionId);
+                    
+                    // Update active nav
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // MCQ Form submission
+            document.getElementById('mcqForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addMCQ();
+            });
+
+            // Sidebar toggle
+            document.getElementById('toggleSidebar').addEventListener('click', function() {
+                document.getElementById('sidebar').classList.toggle('collapsed');
+            });
+
+            // Theme toggle - THIS WAS MISSING!
+            document.getElementById('themeToggle').addEventListener('click', function() {
+                toggleTheme();
+            });
+
+            // Subject filter
+            document.getElementById('filterSubject').addEventListener('change', function() {
+                displayMCQs(this.value);
+            });
+        });
+
+        // Theme toggle function - THIS WAS MISSING!
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            const themeText = document.getElementById('themeText');
+            
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Light Mode';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Dark Mode';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load theme preference - THIS WAS MISSING!
+        function loadThemePreference() {
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            const themeText = document.getElementById('themeText');
+            
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode');
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Light Mode';
+            } else {
+                body.classList.remove('dark-mode');
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Dark Mode';
+            }
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        function initializeSubjects() {
+            const subjectSelects = [document.getElementById('subject'), document.getElementById('filterSubject')];
+            
+            subjectSelects.forEach(select => {
+                if (select.id === 'filterSubject') {
+                    select.innerHTML = '<option value="">All Subjects</option>';
+                } else {
+                    select.innerHTML = '<option value="">Select Subject</option>';
+                }
+                
+                subjects.forEach(subject => {
+                    const option = document.createElement('option');
+                    option.value = subject;
+                    option.textContent = subject;
+                    select.appendChild(option);
+                });
+            });
+        }
+
+        function addMCQ() {
+            const subject = document.getElementById('subject').value;
+            const question = document.getElementById('question').value;
+            const options = [
+                document.getElementById('option0').value,
+                document.getElementById('option1').value,
+                document.getElementById('option2').value,
+                document.getElementById('option3').value
+            ];
+            const correctOption = parseInt(document.querySelector('input[name="correctOption"]:checked').value);
+
+            const mcq = {
+                id: Date.now(),
+                subject,
+                question,
+                options,
+                correctOption,
+                dateAdded: new Date().toISOString().split('T')[0]
+            };
+
+            mcqs.push(mcq);
+            localStorage.setItem('mcqs', JSON.stringify(mcqs));
+            
+            document.getElementById('mcqForm').reset();
+            updateDashboard();
+            displayMCQs();
+            
+            alert('MCQ added successfully!');
+        }
+
+        function displayMCQs(filterSubject = '') {
+            const mcqList = document.getElementById('mcqList');
+            let filteredMcqs = mcqs;
+
+            if (filterSubject) {
+                filteredMcqs = mcqs.filter(mcq => mcq.subject === filterSubject);
+            }
+
+            if (filteredMcqs.length === 0) {
+                mcqList.innerHTML = '<p style="text-align: center; color: #666; padding: 40px;">No MCQs found.</p>';
+                return;
+            }
+
+            mcqList.innerHTML = filteredMcqs.map(mcq => `
+                <div class="mcq-item">
+                    <div class="mcq-question">${mcq.question}</div>
+                    <div class="mcq-options">
+                        ${mcq.options.map((option, index) => 
+                            `<div class="mcq-option ${index === mcq.correctOption ? 'correct' : ''}">
+                                ${String.fromCharCode(65 + index)}) ${option} ${index === mcq.correctOption ? '✓' : ''}
+                            </div>`
+                        ).join('')}
+                    </div>
+                    <div class="mcq-meta">
+                        <span class="subject-tag">${mcq.subject}</span>
+                        <button class="btn delete-btn" onclick="deleteMCQ(${mcq.id})">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function deleteMCQ(id) {
+            if (confirm('Are you sure you want to delete this MCQ?')) {
+                mcqs = mcqs.filter(mcq => mcq.id !== id);
+                localStorage.setItem('mcqs', JSON.stringify(mcqs));
+                displayMCQs();
+                updateDashboard();
+            }
+        }
+
+        function addSubject() {
+            const newSubject = document.getElementById('newSubject').value.trim();
+            
+            if (!newSubject) {
+                alert('Please enter a subject name.');
+                return;
+            }
+
+            if (subjects.includes(newSubject)) {
+                alert('Subject already exists.');
+                return;
+            }
+
+            subjects.push(newSubject);
+            localStorage.setItem('subjects', JSON.stringify(subjects));
+            document.getElementById('newSubject').value = '';
+            
+            initializeSubjects();
+            displaySubjects();
+            updateDashboard();
+            alert('Subject added successfully!');
+        }
+
+        function displaySubjects() {
+            const subjectsList = document.getElementById('subjectsList');
+            subjectsList.innerHTML = `
+                <h3>Current Subjects:</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;">
+                    ${subjects.map(subject => `
+                        <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 20px; display: flex; align-items: center; gap: 10px;">
+                            <span>${subject}</span>
+                            <button onclick="removeSubject('${subject}')" style="background: #dc3545; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; cursor: pointer;">×</button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function removeSubject(subject) {
+            if (confirm(`Are you sure you want to remove "${subject}"? This will not delete existing MCQs.`)) {
+                subjects = subjects.filter(s => s !== subject);
+                localStorage.setItem('subjects', JSON.stringify(subjects));
+                initializeSubjects();
+                displaySubjects();
+                updateDashboard();
+            }
+        }
+
+        function updateDashboard() {
+            const today = new Date().toISOString().split('T')[0];
+            const todayMcqs = mcqs.filter(mcq => mcq.dateAdded === today).length;
+
+            document.getElementById('totalMcqs').textContent = mcqs.length;
+            document.getElementById('totalSubjects').textContent = subjects.length;
+            document.getElementById('todayMcqs').textContent = todayMcqs;
+        }
+    </script>
+</body>
+</html>

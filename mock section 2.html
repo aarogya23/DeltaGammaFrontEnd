@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Delta Gama Academy Mathematics Page">
+    <title>Delta Gama Academy Mathematics Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="path/to/your/icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-size: .875rem;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        main {
+            position: relative;
+            overflow-y: auto;
+            transition: margin-left 0.3s, width 0.3s;
+            margin-left: 250px;
+            width: calc(100% - 250px);
+        }
+
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 250px;
+            background-color: #f8f9fa;
+            padding-top: 1rem;
+            z-index: 1000;
+            transform: translateX(0);
+            transition: transform 0.3s ease;
+        }
+
+        #sidebar .back-btn {
+            display: none;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            padding: 0.5rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        #sidebar.active .back-btn {
+            display: block;
+        }
+
+        #sidebarToggle {
+            font-size: 0.75rem;
+            padding: 0.5rem 1rem;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .sidebar-header img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .nav-link.active {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .pt-3, .py-3 {
+            padding-top: 5rem !important;
+        }
+
+        /* Responsive Design Adjustments */
+        @media (max-width: 992px) {
+            #sidebar {
+                width: 100%;
+                transform: translateX(-100%);
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 1000;
+                height: 100%;
+            }
+
+            #sidebar.active {
+                transform: translateX(0);
+            }
+
+            main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            #logo {
+                display: block;
+                margin: 1rem auto;
+                max-width: 150px;
+            }
+
+            .nav-link i {
+                margin-right: 8px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .card-title {
+                font-size: 1rem;
+            }
+
+            .card-text {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .card-body {
+                padding: 1rem;
+            }
+
+            .card-title {
+                font-size: 0.875rem;
+            }
+
+            .card-text {
+                font-size: 0.875rem;
+            }
+        }
+
+        .question-section {
+            margin-bottom: 2rem;
+        }
+
+        .question {
+            margin-bottom: 1rem;
+        }
+
+        .options {
+            margin-bottom: 1rem;
+        }
+
+        .answer-section {
+            margin-top: 2rem;
+        }
+
+        .answer {
+            display: none;
+        }
+
+        .answer.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar Toggle Button -->
+            <button class="btn btn-primary d-md-none" id="sidebarToggle" aria-label="Toggle Sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Logo for Mobile View -->
+            <div id="logo" class="d-md-none">
+                <img src="Artboard 7.png" alt="Delta Gama Academy Logo" class="img-fluid">
+            </div>
+
+            <!-- Sidebar -->
+             <!-- Sidebar -->
+             <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+                <button class="back-btn" id="backButton" aria-label="Close Sidebar">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="position-sticky">
+                    <div class="sidebar-header">
+                        <img src="Artboard 7.png" alt="Delta Gama Academy Logo" class="img-fluid"> <!-- Replace with your logo path -->
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="Dashboard.html">
+                                <i class="fas fa-home"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-book"></i> My Course
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="test series.html">
+                                <i class="fas fa-file-alt"></i> Test Series
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-sticky-note"></i> My Notes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="new.html">
+                                <i class="fas fa-inbox"></i> Inbox
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-layer-group"></i> Courses
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2"> Physics</h1>
+                    <h1>Quiz - Section 2</h1>
+                </div>
+
+                <div id="quiz-container"></div>
+
+                <div class="mt-4">
+                    <a href="mock section 1.html" class="btn btn-primary">Previous Section</a>
+                    <button id="submit-btn" class="btn btn-success">Submit Quiz</button>
+                </div>
+                <div id="results" class="mt-4"></div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questionsSection2 = [
+                           // New questions...
+            { q: "11. A man walks on a level road carrying a suitcase of 5 kg. He walks 1km. Work done by man is :", options: ["50 kW", "5 kW", "100 kW", "0"], correct: "D" },
+            { q: "12. The non conservative force is :", options: ["force due to gravity", "force due to electric field", "force due to magnetic field", "force due to friction"], correct: "D" },
+            { q: "13. A man pushes a wall but fails to displace it. he does :", options: ["a positive work", "negative work", "no work at all", "work which may be positive or negative"], correct: "C" },
+            { q: "14. A vehicle is moving on a rough horizontal road with kinetic energy K. If the force of friction on the vehicle is F, the stopping distance will be given by :", options: ["K/F", "root of K/F", "K/root of F", "root of(K/F)"], correct: "A" },
+            { q: "15. A gun of mass M fires a bullet of mass m. The ratio of energy of gun to that of total KE is :", options: ["M/m", "m/M", "m/(m+M)", "M/(m+M)"], correct: "D" },
+            { q: "16. When force retard the motion of a body then work done is :", options: ["zero", "negative", "positive", "positive or negative depending upon the magnitude of Force and displacement"], correct: "B" },
+            { q: "17. Two bodies A and B having mass m and M respectively possess same kinetic energy. If M>m then PA and PB be their momentum then the correct statement is :", options: ["PA = PB", "PA > PB", "PA < PB", "cannot be predicted"], correct: "C" },
+            { q: "18. A heavy weight is suspended from the spring. A person raises the weight till the spring becomes slack. The work done by him is W. The energy stored in the stretched spring was E. The gain in gravitational potential energy is :", options: ["W", "E", "W + E", "W - E"], correct: "D" },
+            { q: "19. A body is acted upon by a force which is inversely proportional to the distance covered (x). The work done will be proportional to :", options: ["x", "x^2", "x^(3/2)", "none of these"], correct: "C" },
+            { q: "20. A ball is projected upwards. As it rises then is increase in its :", options: ["Kinetic energy", "Potential energy", "Total energy", "Acceleration"], correct: "B" }
+        ];
+
+            function generateQuestions(questions, container) {
+                container.innerHTML = ''; // Clear previous questions
+                questions.forEach((question, index) => {
+                    const card = document.createElement('div');
+                    card.classList.add('card', 'mb-3');
+
+                    const cardBody = document.createElement('div');
+                    cardBody.classList.add('card-body');
+
+                    const cardTitle = document.createElement('h5');
+                    cardTitle.classList.add('card-title');
+                    cardTitle.textContent = question.q;
+                    cardBody.appendChild(cardTitle);
+
+                    const form = document.createElement('form');
+                    form.classList.add('mcqForm');
+
+                    question.options.forEach((option, i) => {
+                        const formCheck = document.createElement('div');
+                        formCheck.classList.add('form-check');
+
+                        const input = document.createElement('input');
+                        input.classList.add('form-check-input');
+                        input.type = 'radio';
+                        input.name = `answer${index + 1}`;
+                        input.id = `option${i + 1}_${index + 1}`;
+                        input.value = String.fromCharCode(65 + i);
+                        formCheck.appendChild(input);
+
+                        const label = document.createElement('label');
+                        label.classList.add('form-check-label');
+                        label.htmlFor = `option${i + 1}_${index + 1}`;
+                        label.textContent = option;
+                        formCheck.appendChild(label);
+
+                        form.appendChild(formCheck);
+                    });
+
+                    cardBody.appendChild(form);
+                    card.appendChild(cardBody);
+                    container.appendChild(card);
+                });
+            }
+
+            function handleSubmit() {
+                const results = [];
+                let correctCountSection2 = 0;
+
+                // Check answers for section 2
+                questionsSection2.forEach((question, index) => {
+                    const selectedAnswer = document.querySelector(`input[name="answer${index + 1}"]:checked`);
+                    const isCorrect = selectedAnswer && selectedAnswer.value === question.correct;
+                    results.push({
+                        section: 2,
+                        question: `Question ${index + 1}`,
+                        selectedAnswer: selectedAnswer ? selectedAnswer.value : 'No answer',
+                        correctAnswer: question.correct,
+                        isCorrect
+                    });
+                    if (isCorrect) {
+                        correctCountSection2++;
+                    }
+                });
+
+                // Display results
+                document.getElementById('results').innerHTML = `
+                    <h3 class="text-center">Results</h3>
+                    <h4>Section 2: ${correctCountSection2} out of ${questionsSection2.length} correct</h4>
+                    ${results.map(result => `
+                        <div class="result ${result.isCorrect ? 'correct' : 'incorrect'}">
+                            <p><strong>${result.question}:</strong> ${result.isCorrect ? 'Correct' : 'Incorrect'}</p>
+                            <p>Selected Answer: ${result.selectedAnswer}</p>
+                            <p>Correct Answer: ${result.correctAnswer}</p>
+                        </div>
+                    `).join('')}
+                `;
+            }
+
+            const quizContainer = document.getElementById('quiz-container');
+            generateQuestions(questionsSection2, quizContainer);
+
+            document.getElementById('submit-btn').addEventListener('click', handleSubmit);
+        });
+    </script>
+</body>
+
+</html>

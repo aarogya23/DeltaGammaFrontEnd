@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Delta Gama Academy Dashboard">
+    <title>Delta Gama Academy Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="path/to/your/icon.png"> <!-- Replace with your icon path -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Font Awesome -->
+    <style>
+        body {
+            font-size: .875rem;
+            margin: 0;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        main {
+            position: relative;
+            overflow-y: auto;
+            transition: margin-left 0.3s, width 0.3s;
+            margin-left: 250px; /* Adjust according to sidebar width */
+            width: calc(100% - 250px); /* Adjust according to sidebar width */
+        }
+
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 250px;
+            background-color: #f8f9fa;
+            padding-top: 1rem;
+            z-index: 1000;
+            transform: translateX(0);
+            transition: transform 0.3s ease;
+        }
+
+        #sidebar .back-btn {
+            display: none;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            padding: 0.5rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        #sidebar.active .back-btn {
+            display: block;
+        }
+
+        #sidebarToggle {
+            font-size: 0.75rem; /* Smaller icon size */
+            padding: 0.5rem 1rem; /* Adjust button size */
+        }
+
+        .sidebar-header {
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .sidebar-header img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .nav-link.active {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .progress-bar {
+            height: 20px;
+            font-size: 0.75rem;
+        }
+
+        .progress {
+            background-color: #f2f2f2;
+            height: 20px;
+        }
+
+        .pt-3, .py-3 {
+            padding-top: 5rem !important;
+        }
+
+        /* Responsive Design Adjustments */
+        @media (max-width: 992px) {
+            #sidebar {
+                width: 100%;
+                transform: translateX(-100%);
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 1000;
+                height: 100%;
+            }
+
+            #sidebar.active {
+                transform: translateX(0);
+            }
+
+            main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            #logo {
+                display: block;
+                margin: 1rem auto;
+                max-width: 150px; /* Adjust as needed */
+            }
+
+            .nav-link i {
+                margin-right: 8px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .card-title {
+                font-size: 1rem;
+            }
+
+            .card-text {
+                font-size: 1rem;
+            }
+
+            .progress-bar {
+                height: 15px;
+                font-size: 0.7rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .card-body {
+                padding: 1rem;
+            }
+
+            .card-title {
+                font-size: 0.875rem;
+            }
+
+            .card-text {
+                font-size: 0.875rem;
+            }
+
+            /* Adjustments for mobile view */
+            .mobile-card {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                margin-bottom: 10px;
+                background-color: #fff;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            }
+
+            .mobile-card img {
+                width: 40px;
+                height: 40px;
+                margin-right: 10px;
+            }
+
+            .mobile-card .progress {
+                flex-grow: 1;
+                margin-left: 10px;
+            }
+
+            .mobile-card .progress-bar {
+                height: 10px;
+            }
+        }
+
+        /* FullCalendar styling */
+        .fc .fc-toolbar-title {
+            font-size: 1.25rem; /* Adjust as needed */
+        }
+
+        .fc .fc-button {
+            font-size: 0.875rem; /* Adjust as needed */
+        }
+
+        .fc .fc-daygrid-event {
+            font-size: 0.875rem; /* Adjust as needed */
+        }
+
+        .fc .fc-timegrid-event {
+            font-size: 0.875rem; /* Adjust as needed */
+        }
+
+        /* Video Gallery Styling */
+        .video-gallery {
+            display: flex;
+            flex-direction: column; /* Stack videos vertically */
+            gap: 2rem; /* Add space between each video block */
+        }
+
+        .video-gallery .video-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .video-gallery .video-item h3 {
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .video-gallery iframe {
+            width: 100%;
+            height: 600px; /* Larger height for videos */
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .video-gallery iframe {
+                height: 400px; /* Adjust height for mobile view */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar Toggle Button -->
+            <button class="btn btn-primary d-md-none" id="sidebarToggle" aria-label="Toggle Sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Logo for Mobile View -->
+            <div id="logo" class="d-md-none">
+                <img src="Artboard 8.png" alt="Delta Gama Academy Logo" class="img-fluid"> <!-- Replace with your logo path -->
+            </div>
+
+            <!-- Sidebar -->
+             <!-- Sidebar -->
+             <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+                <button class="back-btn" id="backButton" aria-label="Close Sidebar">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="position-sticky">
+                    <div class="sidebar-header">
+                        <img src="Artboard 8.png" alt="Delta Gama Academy Logo" class="img-fluid"> <!-- Replace with your logo path -->
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="Dashboard.html">
+                                <i class="fas fa-home"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-book"></i> My Course
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="test series.html">
+                                <i class="fas fa-file-alt"></i> Test Series
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-sticky-note"></i> My Notes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="new.html">
+                                <i class="fas fa-inbox"></i> Inbox
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-layer-group"></i> Courses
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+
+            <!-- Main Content -->
+            <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Calculus</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-user"></i>
+                            </button>
+                        </div>
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Gallery Section -->
+                <div class="video-gallery">
+                    <!-- Embed YouTube Videos -->
+                    <div class="video-item">
+                        <h3>CALCULATOR TRICKS IOE ENTRANCE😱TOPPER SECRET (Limit and continuity)100% question solve</h3>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/5hlWeU6AUtw?si=XUSJTyngGXzIkybN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+                    <div class="video-item">
+                        <h3>CALCULATOR TRICKS IOE ENTRANCE😱🔥 TOPPER'S SECRET (DERIVATIVE) FULL MARKS CONFIRMED</h3>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/ivbPohRNVJ8?si=NB5s8NtXziXAhoRr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-item">
+                        <h3>CALCULATOR TRICKS😱🔥 IOE ENTRANCE EXAMINATION DERIVATIVES (Crack IOE using calculator)</h3>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/3yxOvRpvFk0?si=sjewResgrrai8nj2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-item">
+                        <h3>Calculator tricks😱🔥 IOE entrance (Integration) ⚠️ I cracked IOE only using calculator</h3>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/5dowv0EHySk?si=4_aqv8vX2ZV0xLtb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-item">
+                        <h3>🔴Logarithmic Function all entrance IOE TU KU PU😱🔥 Topper's secret IOE Pulchowk</h3>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/01ljgz3ppn4?si=xYp4trnhTUuaAmGy" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-item">
+                        <h3>IOE Entrance maths trick🔥(LIMIT) from 0 to hero😱🔥</h3>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/c92SQNiiyEI?si=QqQhbjUi2KUR1Fyr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <!-- Add more videos as needed -->
+                </div>
+            </main>
+        </div>
+    </div>
+    
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var sidebarToggle = document.getElementById('sidebarToggle');
+            var sidebar = document.getElementById('sidebar');
+            var backButton = document.getElementById('backButton');
+
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+            });
+
+            backButton.addEventListener('click', function() {
+                sidebar.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+
+</html>
